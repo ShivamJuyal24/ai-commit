@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "bin": {
-    "git-ai": "./dist/index.js"
+    "ai-commit": "./dist/index.js"
   },
   "main": "./dist/index.js",
   "scripts": {
