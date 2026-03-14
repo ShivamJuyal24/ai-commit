@@ -5,7 +5,8 @@ a commit message following Conventional Commits format.
 
 Rules:
 - First line: type(scope): short description (max 70 chars)
-- Add bullet points for key changes underneath
+- Add maximum 3 bullet points for the most important changes only
+- If there are many changes, summarize them, don't list all of them
 - Be specific. Avoid generic messages like "fix bug" or "update code"
 
 Git diff:
