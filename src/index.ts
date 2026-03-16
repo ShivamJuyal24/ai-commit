@@ -6,11 +6,14 @@ dotenv.config({ path: path.join(__dirname, "../.env"), quiet: true });
 import { getStagedDiff } from "./git/getStagedDiff";
 import { buildPrompt } from "./prompt/buildPrompt";
 import { generateCommitMessage } from "./ai/generateCommitMessage";
+import { ensureApiKey } from "./config";
 import { confirm } from "@inquirer/prompts";
 import { execSync } from "child_process";
 import ora from "ora";
 
 async function main() {
+    const apiKey = await ensureApiKey();
+
     const diffSpinner = ora("Reading staged changes...").start();
     const diff = getStagedDiff();
 
@@ -23,7 +26,7 @@ async function main() {
 
     const aiSpinner = ora("Generating commit message...").start();
     const prompt = buildPrompt(diff);
-    const message = await generateCommitMessage(prompt);
+    const message = await generateCommitMessage(prompt, apiKey);
     aiSpinner.succeed("Done.\n");
 
     console.log("Suggested commit message:\n");
