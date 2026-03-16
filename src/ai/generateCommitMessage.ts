@@ -1,19 +1,22 @@
-import OpenAI from "openai";
+import Groq from "groq-sdk";
 
 export async function generateCommitMessage(prompt: string, apiKey: string): Promise<string> {
     try {
-        const client = new OpenAI({
-            apiKey,
-            baseURL: "https://openrouter.ai/api/v1"
-        });
-
+        const client = new Groq({ apiKey });
         const response = await client.chat.completions.create({
-            model: "meta-llama/llama-3.3-70b-instruct:free",
+            model: "llama-3.1-8b-instant",
             messages: [{ role: "user", content: prompt }],
             max_tokens: 300,
         });
 
-        return response.choices[0].message.content || "";
+        const content = response.choices[0].message.content;
+
+        if (!content || content.trim() === "") {
+            console.error("AI returned an empty response. Try running again.");
+            process.exit(1);
+        }
+
+        return content;
     } catch (error: any) {
         if (error.status === 429) {
             console.error("Rate limit hit. Wait a minute and try again.");

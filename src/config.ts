@@ -6,15 +6,15 @@ import { input } from "@inquirer/prompts";
 const CONFIG_DIR = path.join(os.homedir(), ".ai-commit");
 const CONFIG_FILE = path.join(CONFIG_DIR, "config.json");
 
-export function getConfig(): { openRouterApiKey: string } {
+export function getConfig(): { groqApiKey: string } {
     if (fs.existsSync(CONFIG_FILE)) {
         const raw = fs.readFileSync(CONFIG_FILE, "utf-8");
         return JSON.parse(raw);
     }
-    return { openRouterApiKey: "" };
+    return { groqApiKey: "" };
 }
 
-export function saveConfig(config: { openRouterApiKey: string }) {
+export function saveConfig(config: { groqApiKey: string }) {
     if (!fs.existsSync(CONFIG_DIR)) {
         fs.mkdirSync(CONFIG_DIR, { recursive: true });
     }
@@ -24,16 +24,16 @@ export function saveConfig(config: { openRouterApiKey: string }) {
 export async function ensureApiKey(): Promise<string> {
     const config = getConfig();
 
-    if (config.openRouterApiKey) {
-        return config.openRouterApiKey;
+    if (config.groqApiKey) {
+        return config.groqApiKey;
     }
 
-    console.log("\nNo OpenRouter API key found.");
-    console.log("Get your free key at: https://openrouter.ai\n");
+    console.log("\nNo Groq API key found.");
+    console.log("Get your free key at: https://console.groq.com\n");
 
-    const key = await input({ message: "Enter your OpenRouter API key:" });
+    const key = await input({ message: "Enter your Groq API key here:" });
 
-    saveConfig({ openRouterApiKey: key });
+    saveConfig({ groqApiKey: key });
     console.log("\n✔ Key saved. You will not be asked again.\n");
 
     return key;
