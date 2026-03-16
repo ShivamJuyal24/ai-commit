@@ -1,6 +1,6 @@
 {
   "name": "@the-white-wolf/ai-commit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AI-powered commit message generator using Groq",
   "bin": {
     "ai-commit": "./dist/index.js"
